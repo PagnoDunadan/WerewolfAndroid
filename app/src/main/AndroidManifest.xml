@@ -30,6 +30,10 @@
             android:name=".LobbyActivity"
             android:label="Lobby">
         </activity>
+        <activity
+            android:name=".ShowRolesActivity"
+            android:label="Lobby">
+        </activity>
     </application>
 
 </manifest>

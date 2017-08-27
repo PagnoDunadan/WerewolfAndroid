@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="50dp"
+    android:gravity="center">
+
+    <!-- TODO: Hide statusTextView IN PRODUCTION -->
+    <TextView
+        android:text="roomId: "
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10dp"
+        android:id="@+id/statusTextView1"
+        android:textAppearance="@style/TextAppearance.AppCompat" />
+    <TextView
+        android:text="playerName: "
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10dp"
+        android:id="@+id/statusTextView2"
+        android:textAppearance="@style/TextAppearance.AppCompat" />
+    <TextView
+        android:text="playerRole: "
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10dp"
+        android:id="@+id/statusTextView3"
+        android:textAppearance="@style/TextAppearance.AppCompat" />
+    <TextView
+        android:text="gameStatus: "
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10dp"
+        android:id="@+id/statusTextView4"
+        android:textAppearance="@style/TextAppearance.AppCompat" />
+    <TextView
+        android:text="gamePhase: "
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10dp"
+        android:id="@+id/statusTextView5"
+        android:textAppearance="@style/TextAppearance.AppCompat" />
+    <!-- statusTextView END -->
+
+    <TextView
+        android:text="Your role:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="20dp"
+        android:id="@+id/textView"
+        android:textAppearance="@style/TextAppearance.AppCompat" />
+
+    <TextView
+        android:text="ROLE"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="20dp"
+        android:id="@+id/roleTextView"
+        android:textAppearance="@style/TextAppearance.AppCompat" />
+
+    <Button
+        android:text="I'm ready!"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/readyButton" />
+
+</LinearLayout>

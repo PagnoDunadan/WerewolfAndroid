@@ -34,6 +34,7 @@ public class LobbyActivity extends Activity {
         final ListView playersList = (ListView) findViewById(R.id.playersList);
         final Button startButton = (Button) findViewById(R.id.startButton);
         final Button cancelButton = (Button) findViewById(R.id.cancelButton);
+        final Button addPlayersButton = (Button) findViewById(R.id.addPlayersButton);
 
         final AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
 
@@ -94,6 +95,36 @@ public class LobbyActivity extends Activity {
             }
         }, 0);
 
+        // TODO: Hide addPlayersButton in production
+        addPlayersButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RequestParams requestParams = new RequestParams();
+                requestParams.add("roomId", myPreferences.getString("roomId"));
+                requestParams.add("playerName", myPreferences.getString("playerName"));
+                asyncHttpClient.post(API_URL + "add-players", requestParams, new TextHttpResponseHandler() {
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                        Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_LONG).show();
+
+                        if (responseString.equals("RoomNotFound")) {
+                            Toast.makeText(getApplicationContext(), "RoomNotFound", Toast.LENGTH_SHORT).show();
+                        }
+                        else if (responseString.equals("PlayersNotFound")) {
+                            Toast.makeText(getApplicationContext(), "PlayersNotFound", Toast.LENGTH_SHORT).show();
+                        }
+                        else if (responseString.equals("PlayersAdded")) {
+                            Toast.makeText(getApplicationContext(), "PlayersAdded", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
+
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,18 +149,12 @@ public class LobbyActivity extends Activity {
                             Toast.makeText(getApplicationContext(), "GameStarted", Toast.LENGTH_SHORT).show();
                             playersListBuffer = "";
                             playersListHandler.removeCallbacksAndMessages(null);
-                            Intent myIntent = new Intent(LobbyActivity.this, MainActivity.class);
+                            Intent myIntent = new Intent(LobbyActivity.this, ShowRolesActivity.class);
                             startActivity(myIntent);
                             finish();
                         }
                         else if (responseString.equals("MinimumPlayers7")) {
-                            // TODO: Remove in production
                             Toast.makeText(getApplicationContext(), "MinimumPlayers7", Toast.LENGTH_SHORT).show();
-                            playersListBuffer = "";
-                            playersListHandler.removeCallbacksAndMessages(null);
-                            Intent myIntent = new Intent(LobbyActivity.this, MainActivity.class);
-                            startActivity(myIntent);
-                            finish();
                         }
                         else if (responseString.equals("MaximumPlayers16")) {
                             Toast.makeText(getApplicationContext(), "MaximumPlayers16", Toast.LENGTH_SHORT).show();
@@ -168,6 +193,7 @@ public class LobbyActivity extends Activity {
                         }
                         myPreferences.setString("roomId", "");
                         myPreferences.setString("playerName", "");
+                        myPreferences.setString("playerRole", "");
                         playersListBuffer = "";
                         playersListHandler.removeCallbacksAndMessages(null);
                         Intent myIntent = new Intent(LobbyActivity.this, MainActivity.class);

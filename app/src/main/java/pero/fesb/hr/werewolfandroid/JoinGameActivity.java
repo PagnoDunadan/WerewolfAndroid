@@ -66,7 +66,7 @@ public class JoinGameActivity extends Activity {
                             }
                             else if (responseString.equals("ReconnectSuccessful")) {
                                 Toast.makeText(getApplicationContext(), "ReconnectSuccessful", Toast.LENGTH_SHORT).show();
-                                // TODO: Reconnect logic
+                                // TODO: Reconnect logika
                             }
                             else if (responseString.equals("MatchInProgress")) {
                                 Toast.makeText(getApplicationContext(), "Cannot join match in progress", Toast.LENGTH_SHORT).show();
@@ -85,6 +85,7 @@ public class JoinGameActivity extends Activity {
             public void onClick(View v) {
                 myPreferences.setString("roomId", "");
                 myPreferences.setString("playerName", "");
+                myPreferences.setString("playerRole", "");
                 Intent myIntent = new Intent(JoinGameActivity.this, MainActivity.class);
                 startActivity(myIntent);
                 finish();

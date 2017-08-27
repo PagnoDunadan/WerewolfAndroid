@@ -62,6 +62,12 @@
             android:id="@+id/cancelButton"
             android:layout_weight="1" />
         <Button
+            android:text="Add Players"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/addPlayersButton"
+            android:layout_weight="1" />
+        <Button
             android:text="Start"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

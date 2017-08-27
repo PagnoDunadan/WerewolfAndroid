@@ -62,6 +62,7 @@ public class CreateGameActivity extends Activity {
             public void onClick(View v) {
                 myPreferences.setString("roomId", "");
                 myPreferences.setString("playerName", "");
+                myPreferences.setString("playerRole", "");
                 Intent myIntent = new Intent(CreateGameActivity.this, MainActivity.class);
                 startActivity(myIntent);
                 finish();
