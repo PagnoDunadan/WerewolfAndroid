@@ -2,26 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp">
+    android:layout_height="60dp" >
 
     <TextView
-        android:text="Mater"
+        android:text="playerName"
         android:id="@+id/playerName"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:textColor="#000000"
-        android:textSize="16dp"/>
-
-    <TextView
-        android:text="Kick"
-        android:id="@+id/kick"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="3"
         android:gravity="center_vertical"
         android:textColor="#000000"
         android:textSize="16dp"/>

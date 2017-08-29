@@ -71,22 +71,38 @@ public class ShowRolesActivity extends Activity {
                                 startActivity(myIntent);
                                 finish();
                             }
-
                         }
                         else if(responseString.equals("doctor")) {
-                            Intent myIntent = new Intent(ShowRolesActivity.this, LobbyActivity.class);
-                            startActivity(myIntent);
-                            finish();
+                            if(myPreferences.getString("playerRole").equals("doctor")) {
+                                // TODO
+//                                Intent myIntent = new Intent(ShowRolesActivity.this, DoctorActivity.class);
+//                                startActivity(myIntent);
+//                                finish();
+                            }
+                            else {
+                                Intent myIntent = new Intent(ShowRolesActivity.this, SleepActivity.class);
+                                startActivity(myIntent);
+                                finish();
+                            }
                         }
                         else if(responseString.equals("seer")) {
-                            Intent myIntent = new Intent(ShowRolesActivity.this, LobbyActivity.class);
-                            startActivity(myIntent);
-                            finish();
+                            if(myPreferences.getString("playerRole").equals("seer")) {
+                                // TODO
+//                                Intent myIntent = new Intent(ShowRolesActivity.this, SeerActivity.class);
+//                                startActivity(myIntent);
+//                                finish();
+                            }
+                            else {
+                                Intent myIntent = new Intent(ShowRolesActivity.this, SleepActivity.class);
+                                startActivity(myIntent);
+                                finish();
+                            }
                         }
                         else if(responseString.equals("day")) {
-                            Intent myIntent = new Intent(ShowRolesActivity.this, LobbyActivity.class);
-                            startActivity(myIntent);
-                            finish();
+                            // TODO
+//                            Intent myIntent = new Intent(ShowRolesActivity.this, VillagerActivity.class);
+//                            startActivity(myIntent);
+//                            finish();
                         }
                     }
                 });

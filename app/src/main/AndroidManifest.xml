@@ -32,7 +32,15 @@
         </activity>
         <activity
             android:name=".ShowRolesActivity"
-            android:label="Lobby">
+            android:label="Show Roles">
+        </activity>
+        <activity
+            android:name=".WerewolfActivity"
+            android:label="Werewolf">
+        </activity>
+        <activity
+            android:name=".SleepActivity"
+            android:label="Sleep">
         </activity>
     </application>
 

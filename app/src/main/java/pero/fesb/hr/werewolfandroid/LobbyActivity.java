@@ -47,7 +47,7 @@ public class LobbyActivity extends Activity {
             public void run() {
                 RequestParams requestParams = new RequestParams();
                 requestParams.add("roomId", myPreferences.getString("roomId"));
-                asyncHttpClient.post(API_URL+"players-list", requestParams, new TextHttpResponseHandler() {
+                asyncHttpClient.post(API_URL+"players-list-lobby", requestParams, new TextHttpResponseHandler() {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                         Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_SHORT).show();
