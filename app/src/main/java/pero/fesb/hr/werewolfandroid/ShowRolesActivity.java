@@ -74,10 +74,9 @@ public class ShowRolesActivity extends Activity {
                         }
                         else if(responseString.equals("doctor")) {
                             if(myPreferences.getString("playerRole").equals("doctor")) {
-                                // TODO
-//                                Intent myIntent = new Intent(ShowRolesActivity.this, DoctorActivity.class);
-//                                startActivity(myIntent);
-//                                finish();
+                                Intent myIntent = new Intent(ShowRolesActivity.this, DoctorActivity.class);
+                                startActivity(myIntent);
+                                finish();
                             }
                             else {
                                 Intent myIntent = new Intent(ShowRolesActivity.this, SleepActivity.class);

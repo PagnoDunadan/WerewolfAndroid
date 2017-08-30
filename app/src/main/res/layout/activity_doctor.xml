@@ -1,6 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:gravity="center">
 
-</LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/linearLayout"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="Room: "
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right|center_vertical"
+                android:textSize="10dp"
+                android:id="@+id/textView1"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
+
+            <TextView
+                android:text="N/A"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left|center_vertical"
+                android:textSize="10dp"
+                android:layout_weight="1"
+                android:id="@+id/roomIdTextView"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
+
+            <TextView
+                android:text="Name: "
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right|center_vertical"
+                android:textSize="10dp"
+                android:id="@+id/textView2"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
+
+            <TextView
+                android:text="N/A"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left|center_vertical"
+                android:textSize="10dp"
+                android:layout_weight="1"
+                android:id="@+id/playerNameTextView"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
+
+            <TextView
+                android:text="Role: "
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right|center_vertical"
+                android:textSize="10dp"
+                android:id="@+id/textView3"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
+
+            <TextView
+                android:text="N/A"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left|center_vertical"
+                android:textSize="10dp"
+                android:layout_weight="1"
+                android:id="@+id/playerRoleTextView"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="Werewolves: "
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right|center_vertical"
+                android:textSize="10dp"
+                android:id="@+id/textView4"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
+
+            <TextView
+                android:text="N/A"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left|center_vertical"
+                android:textSize="10dp"
+                android:layout_weight="1"
+                android:id="@+id/werewolvesCountTextView"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
+
+            <TextView
+                android:text="Villagers: "
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right|center_vertical"
+                android:textSize="10dp"
+                android:id="@+id/textView5"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
+
+            <TextView
+                android:text="N/A"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left|center_vertical"
+                android:textSize="10dp"
+                android:layout_weight="1"
+                android:id="@+id/villagersCountTextView"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:text="Select player to heal:"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/linearLayout"
+        android:layout_above="@+id/linearLayout2"
+        android:id="@+id/playersList"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:layout_gravity="start|center_vertical" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/linearLayout2"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true">
+
+        <Button
+            android:text="Confirm"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/confirmButton" />
+    </LinearLayout>
+
+</RelativeLayout>

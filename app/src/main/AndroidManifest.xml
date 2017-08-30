@@ -42,6 +42,26 @@
             android:name=".SleepActivity"
             android:label="Sleep">
         </activity>
+        <activity
+            android:name=".DoctorActivity"
+            android:label="Doctor">
+        </activity>
+        <activity
+            android:name=".SeerActivity"
+            android:label="Seer">
+        </activity>
+        <activity
+            android:name=".DayActivity"
+            android:label="Day">
+        </activity>
+        <activity
+            android:name=".WerewolvesVictoryActivity"
+            android:label="Werewolves Victory">
+        </activity>
+        <activity
+            android:name=".VillagersVictoryActivity"
+            android:label="Villagers Victory">
+        </activity>
     </application>
 
 </manifest>

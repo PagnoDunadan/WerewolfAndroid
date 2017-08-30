@@ -44,24 +44,27 @@ public class SleepActivity extends Activity {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, String responseString) {
                         if(responseString.equals("werewolves") && myPreferences.getString("playerRole").equals("werewolf")) {
+                            gamePhaseHandler.removeCallbacksAndMessages(null);
                             Intent myIntent = new Intent(SleepActivity.this, WerewolfActivity.class);
                             startActivity(myIntent);
                             finish();
                         }
                         else if(responseString.equals("doctor") && myPreferences.getString("playerRole").equals("doctor")) {
-                            // TODO
-//                            Intent myIntent = new Intent(SleepActivity.this, DoctorActivity.class);
-//                            startActivity(myIntent);
-//                            finish();
+                            gamePhaseHandler.removeCallbacksAndMessages(null);
+                            Intent myIntent = new Intent(SleepActivity.this, DoctorActivity.class);
+                            startActivity(myIntent);
+                            finish();
                         }
                         else if(responseString.equals("seer") && myPreferences.getString("playerRole").equals("seer")) {
                             // TODO
+//                            gamePhaseHandler.removeCallbacksAndMessages(null);
 //                            Intent myIntent = new Intent(SleepActivity.this, SeerActivity.class);
 //                            startActivity(myIntent);
 //                            finish();
                         }
                         else if(responseString.equals("day")) {
                             // TODO
+//                            gamePhaseHandler.removeCallbacksAndMessages(null);
 //                            Intent myIntent = new Intent(SleepActivity.this, VillagerActivity.class);
 //                            startActivity(myIntent);
 //                            finish();

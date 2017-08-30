@@ -125,18 +125,16 @@
                 android:layout_weight="1"
                 android:id="@+id/villagersCountTextView"
                 android:textAppearance="@style/TextAppearance.AppCompat" />
-
         </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="20dp"
-            android:text="Select your victim:"
+            android:text="Pick a player to check if werewolf:"
             android:textSize="20dp"
             android:gravity="center"
             android:textAppearance="@style/TextAppearance.AppCompat" />
-
     </LinearLayout>
 
     <ListView
@@ -144,26 +142,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/linearLayout"
-        android:layout_above="@+id/linearLayout2"
         android:id="@+id/playersList"
         android:paddingLeft="40dp"
         android:paddingRight="40dp"
         android:layout_gravity="start|center_vertical" />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/linearLayout2"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true">
-
-        <Button
-            android:text="Confirm"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/confirmButton" />
-    </LinearLayout>
 
 </RelativeLayout>
