@@ -8,7 +8,7 @@ import android.widget.Button;
 
 
 public class MainActivity extends AppCompatActivity {
-    public static String API_URL = "http://192.168.1.42:8000/";
+    public static String API_URL = "http://192.168.1.4:8000/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

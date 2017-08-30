@@ -57,17 +57,17 @@ public class SleepActivity extends Activity {
                         }
                         else if(responseString.equals("seer") && myPreferences.getString("playerRole").equals("seer")) {
                             // TODO
-//                            gamePhaseHandler.removeCallbacksAndMessages(null);
-//                            Intent myIntent = new Intent(SleepActivity.this, SeerActivity.class);
-//                            startActivity(myIntent);
-//                            finish();
+                            gamePhaseHandler.removeCallbacksAndMessages(null);
+                            Intent myIntent = new Intent(SleepActivity.this, SeerActivity.class);
+                            startActivity(myIntent);
+                            finish();
                         }
                         else if(responseString.equals("day")) {
                             // TODO
-//                            gamePhaseHandler.removeCallbacksAndMessages(null);
-//                            Intent myIntent = new Intent(SleepActivity.this, VillagerActivity.class);
-//                            startActivity(myIntent);
-//                            finish();
+                            gamePhaseHandler.removeCallbacksAndMessages(null);
+                            Intent myIntent = new Intent(SleepActivity.this, DayActivity.class);
+                            startActivity(myIntent);
+                            finish();
                         }
                     }
                 });

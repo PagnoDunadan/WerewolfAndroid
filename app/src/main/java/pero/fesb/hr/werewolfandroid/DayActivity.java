@@ -82,6 +82,7 @@ public class DayActivity extends Activity {
             public void run() {
                 RequestParams requestParams = new RequestParams();
                 requestParams.add("roomId", myPreferences.getString("roomId"));
+                requestParams.add("playerName", myPreferences.getString("playerName"));
                 asyncHttpClient.post(API_URL+"players-list-day", requestParams, new TextHttpResponseHandler() {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
