@@ -29,7 +29,7 @@ public class DayActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor);
+        setContentView(R.layout.activity_day);
 
         final TextView roomIdTextView = (TextView) findViewById(R.id.roomIdTextView);
         final TextView playerNameTextView = (TextView) findViewById(R.id.playerNameTextView);
@@ -62,20 +62,20 @@ public class DayActivity extends Activity {
             }
         });
 
-        if (Integer.parseInt(werewolvesCountTextView.getText().toString()) == 0) {
-            playersListBuffer = "";
-            playersListHandler.removeCallbacksAndMessages(null);
-            Intent myIntent = new Intent(DayActivity.this, VillagersVictoryActivity.class);
-            startActivity(myIntent);
-            finish();
-        }
-        else if (Integer.parseInt(werewolvesCountTextView.getText().toString()) == Integer.parseInt(villagersCountTextView.getText().toString())) {
-            playersListBuffer = "";
-            playersListHandler.removeCallbacksAndMessages(null);
-            Intent myIntent = new Intent(DayActivity.this, WerewolvesVictoryActivity.class);
-            startActivity(myIntent);
-            finish();
-        }
+//        if (Integer.parseInt(werewolvesCountTextView.getText().toString()) == 0) {
+//            playersListBuffer = "";
+//            playersListHandler.removeCallbacksAndMessages(null);
+//            Intent myIntent = new Intent(DayActivity.this, VillagersVictoryActivity.class);
+//            startActivity(myIntent);
+//            finish();
+//        }
+//        else if (Integer.parseInt(werewolvesCountTextView.getText().toString()) == Integer.parseInt(villagersCountTextView.getText().toString())) {
+//            playersListBuffer = "";
+//            playersListHandler.removeCallbacksAndMessages(null);
+//            Intent myIntent = new Intent(DayActivity.this, WerewolvesVictoryActivity.class);
+//            startActivity(myIntent);
+//            finish();
+//        }
 
         playersListHandler.postDelayed(new Runnable() {
             @Override
