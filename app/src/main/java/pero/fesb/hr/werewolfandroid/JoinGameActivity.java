@@ -23,10 +23,10 @@ public class JoinGameActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_game);
 
-        final EditText roomCodeEditText = (EditText) findViewById(R.id.roomCodeEditText);
-        final EditText nameEditText = (EditText) findViewById(R.id.nameEditText);
-        final Button joinGameButton = (Button) findViewById(R.id.joinGameButton);
-        final Button cancelButton = (Button) findViewById(R.id.cancelButton);
+        final EditText roomCodeEditText = findViewById(R.id.roomCodeEditText);
+        final EditText nameEditText = findViewById(R.id.nameEditText);
+        final Button joinGameButton = findViewById(R.id.joinGameButton);
+        final Button cancelButton = findViewById(R.id.cancelButton);
 
         final AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
 
@@ -51,9 +51,6 @@ public class JoinGameActivity extends Activity {
                             if (responseString.equals("RoomNotFound")) {
                                 Toast.makeText(getApplicationContext(), "Room not found", Toast.LENGTH_SHORT).show();
                             }
-                            else if (responseString.equals("PlayersNotFound")) {
-                                Toast.makeText(getApplicationContext(), "Players not found", Toast.LENGTH_SHORT).show();
-                            }
                             else if (responseString.equals("NameInUse")) {
                                 Toast.makeText(getApplicationContext(), "Name is already in use", Toast.LENGTH_SHORT).show();
                             }
@@ -65,8 +62,12 @@ public class JoinGameActivity extends Activity {
                                 finish();
                             }
                             else if (responseString.equals("ReconnectSuccessful")) {
-                                Toast.makeText(getApplicationContext(), "ReconnectSuccessful", Toast.LENGTH_SHORT).show();
-                                // TODO: Reconnect logika
+                                Toast.makeText(getApplicationContext(), "Reconnect successful", Toast.LENGTH_SHORT).show();
+                                myPreferences.setString("roomId", roomCodeEditText.getText().toString());
+                                myPreferences.setString("playerName", nameEditText.getText().toString());
+                                Intent myIntent = new Intent(JoinGameActivity.this, ShowRolesActivity.class);
+                                startActivity(myIntent);
+                                finish();
                             }
                             else if (responseString.equals("MatchInProgress")) {
                                 Toast.makeText(getApplicationContext(), "Cannot join match in progress", Toast.LENGTH_SHORT).show();
@@ -83,9 +84,6 @@ public class JoinGameActivity extends Activity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myPreferences.setString("roomId", "");
-                myPreferences.setString("playerName", "");
-                myPreferences.setString("playerRole", "");
                 Intent myIntent = new Intent(JoinGameActivity.this, MainActivity.class);
                 startActivity(myIntent);
                 finish();

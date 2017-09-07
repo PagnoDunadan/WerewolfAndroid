@@ -24,9 +24,9 @@ public class CreateGameActivity extends Activity {
 
         setContentView(R.layout.activity_create_game);
 
-        final EditText nameEditText = (EditText) findViewById(R.id.nameEditText);
-        final Button startGameButton = (Button) findViewById(R.id.startGameButton);
-        final Button cancelButton = (Button) findViewById(R.id.cancelButton);
+        final EditText nameEditText = findViewById(R.id.nameEditText);
+        final Button startGameButton = findViewById(R.id.startGameButton);
+        final Button cancelButton = findViewById(R.id.cancelButton);
 
         final AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
 
@@ -60,9 +60,6 @@ public class CreateGameActivity extends Activity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myPreferences.setString("roomId", "");
-                myPreferences.setString("playerName", "");
-                myPreferences.setString("playerRole", "");
                 Intent myIntent = new Intent(CreateGameActivity.this, MainActivity.class);
                 startActivity(myIntent);
                 finish();

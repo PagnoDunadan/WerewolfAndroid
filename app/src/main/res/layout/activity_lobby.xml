@@ -16,20 +16,10 @@
         android:layout_alignParentEnd="true">
 
         <TextView
-            android:text="Room: "
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="right|center_vertical"
-            android:textSize="20dp"
-            android:id="@+id/textView"
-            android:layout_weight="1"
-            android:textAppearance="@style/TextAppearance.AppCompat" />
-
-        <TextView
             android:text=""
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="left|center_vertical"
+            android:gravity="center"
             android:textSize="20dp"
             android:layout_weight="1"
             android:id="@+id/roomIdTextView"

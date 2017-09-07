@@ -23,16 +23,13 @@ public class ShowRolesActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_roles);
 
-        final Button readyButton = (Button) findViewById(R.id.readyButton);
-        final TextView roleTextView = (TextView) findViewById(R.id.roleTextView);
+        final Button readyButton = findViewById(R.id.readyButton);
+        final TextView roleTextView = findViewById(R.id.roleTextView);
 
         final AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
 
         final MyPreferences myPreferences = new MyPreferences(this);
 
-
-        // TODO: Check if player is alive, then fetch his role
-        // TODO: Show retry button on failure
         RequestParams requestParams = new RequestParams();
         requestParams.add("roomId", myPreferences.getString("roomId"));
         requestParams.add("playerName", myPreferences.getString("playerName"));
@@ -107,18 +104,5 @@ public class ShowRolesActivity extends Activity {
                 });
             }
         });
-
-        // TODO: STATUS TEXT VIEW, REMOVE IN PRODUCTION
-        final TextView statusTextView1 = (TextView) findViewById(R.id.statusTextView1);
-        final TextView statusTextView2 = (TextView) findViewById(R.id.statusTextView2);
-        final TextView statusTextView3 = (TextView) findViewById(R.id.statusTextView3);
-        final TextView statusTextView4 = (TextView) findViewById(R.id.statusTextView4);
-        final TextView statusTextView5 = (TextView) findViewById(R.id.statusTextView5);
-
-        statusTextView1.setText(statusTextView1.getText() + myPreferences.getString("roomId"));
-        statusTextView2.setText(statusTextView2.getText() + myPreferences.getString("playerName"));
-        statusTextView3.setText(statusTextView3.getText() + myPreferences.getString("playerRole"));
-        statusTextView4.setText(statusTextView4.getText() + myPreferences.getString("gameStatus"));
-        statusTextView5.setText(statusTextView5.getText() + myPreferences.getString("gamePhase"));
     }
 }
