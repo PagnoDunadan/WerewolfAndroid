@@ -4,6 +4,7 @@ package pero.fesb.hr.werewolfandroid;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class ShowRolesActivity extends Activity {
     private static String API_URL = MainActivity.API_URL;
+    final Handler gamePhaseHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,55 +52,55 @@ public class ShowRolesActivity extends Activity {
             public void onClick(View v) {
                 RequestParams requestParams = new RequestParams();
                 requestParams.add("roomId", myPreferences.getString("roomId"));
-                asyncHttpClient.post(API_URL + "get-phase", requestParams, new TextHttpResponseHandler() {
+                requestParams.add("playerName", myPreferences.getString("playerName"));
+                asyncHttpClient.post(API_URL + "show-roles-ready", requestParams, new TextHttpResponseHandler() {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                         Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_SHORT).show();
                     }
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                        if(responseString.equals("werewolves")) {
-                            if(myPreferences.getString("playerRole").equals("werewolf")) {
-                                Intent myIntent = new Intent(ShowRolesActivity.this, WerewolfActivity.class);
-                                startActivity(myIntent);
-                                finish();
-                            }
-                            else {
-                                Intent myIntent = new Intent(ShowRolesActivity.this, SleepActivity.class);
-                                startActivity(myIntent);
-                                finish();
-                            }
+                        if(responseString.equals("EveryoneReady")) {
+                            gamePhaseHandler.removeCallbacksAndMessages(null);
+                            Intent myIntent = new Intent(ShowRolesActivity.this, SleepActivity.class);
+                            startActivity(myIntent);
+                            finish();
                         }
-                        else if(responseString.equals("doctor")) {
-                            if(myPreferences.getString("playerRole").equals("doctor")) {
-                                Intent myIntent = new Intent(ShowRolesActivity.this, DoctorActivity.class);
-                                startActivity(myIntent);
-                                finish();
-                            }
-                            else {
-                                Intent myIntent = new Intent(ShowRolesActivity.this, SleepActivity.class);
-                                startActivity(myIntent);
-                                finish();
-                            }
+                        else if(responseString.equals("Reconnecting")) {
+                            // TODO: Posalji do tocnog aktivitija
+                            Toast.makeText(getApplicationContext(), "Reconnect successful", Toast.LENGTH_SHORT).show();
+                            Intent myIntent = new Intent(ShowRolesActivity.this, SleepActivity.class);
+                            startActivity(myIntent);
+                            finish();
                         }
-                        else if(responseString.equals("seer")) {
-                            if(myPreferences.getString("playerRole").equals("seer")) {
-                                // TODO
-//                                Intent myIntent = new Intent(ShowRolesActivity.this, SeerActivity.class);
-//                                startActivity(myIntent);
-//                                finish();
+                        else {
+                            Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_SHORT).show();
+                            if(readyButton.getText().equals("I'm ready!")) {
+                                readyButton.setText("Waiting for other players");
+                                gamePhaseHandler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        RequestParams requestParams = new RequestParams();
+                                        requestParams.add("roomId", myPreferences.getString("roomId"));
+                                        asyncHttpClient.post(API_URL + "get-phase", requestParams, new TextHttpResponseHandler() {
+                                            @Override
+                                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                                Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_SHORT).show();
+                                            }
+                                            @Override
+                                            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                                                if(!responseString.equals("showRoles")) {
+                                                    gamePhaseHandler.removeCallbacksAndMessages(null);
+                                                    Intent myIntent = new Intent(ShowRolesActivity.this, SleepActivity.class);
+                                                    startActivity(myIntent);
+                                                    finish();
+                                                }
+                                            }
+                                        });
+                                        gamePhaseHandler.postDelayed(this, 1000);
+                                    }
+                                }, 0);
                             }
-                            else {
-                                Intent myIntent = new Intent(ShowRolesActivity.this, SleepActivity.class);
-                                startActivity(myIntent);
-                                finish();
-                            }
-                        }
-                        else if(responseString.equals("day")) {
-                            // TODO
-//                            Intent myIntent = new Intent(ShowRolesActivity.this, VillagerActivity.class);
-//                            startActivity(myIntent);
-//                            finish();
                         }
                     }
                 });

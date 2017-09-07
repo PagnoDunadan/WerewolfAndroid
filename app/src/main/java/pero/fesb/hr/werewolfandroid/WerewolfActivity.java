@@ -24,6 +24,7 @@ import cz.msebera.android.httpclient.Header;
 public class WerewolfActivity extends Activity {
     private static String API_URL = MainActivity.API_URL;
     final Handler playersListHandler = new Handler();
+    final Handler gamePhaseHandler = new Handler();
     private static String playersListBuffer = "";
 
     @Override
@@ -31,13 +32,13 @@ public class WerewolfActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_werewolf);
 
-        final TextView roomIdTextView = (TextView) findViewById(R.id.roomIdTextView);
-        final TextView playerNameTextView = (TextView) findViewById(R.id.playerNameTextView);
-        final TextView playerRoleTextView = (TextView) findViewById(R.id.playerRoleTextView);
-        final TextView werewolvesCountTextView = (TextView) findViewById(R.id.werewolvesCountTextView);
-        final TextView villagersCountTextView = (TextView) findViewById(R.id.villagersCountTextView);
-        final ListView playersList = (ListView) findViewById(R.id.playersList);
-        final Button confirmButton = (Button) findViewById(R.id.confirmButton);
+        final TextView roomIdTextView = findViewById(R.id.roomIdTextView);
+        final TextView playerNameTextView = findViewById(R.id.playerNameTextView);
+        final TextView playerRoleTextView = findViewById(R.id.playerRoleTextView);
+        final TextView werewolvesCountTextView = findViewById(R.id.werewolvesCountTextView);
+        final TextView villagersCountTextView = findViewById(R.id.villagersCountTextView);
+        final ListView playersList = findViewById(R.id.playersList);
+        final Button confirmButton = findViewById(R.id.confirmButton);
 
         final AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
 
@@ -67,7 +68,7 @@ public class WerewolfActivity extends Activity {
             public void run() {
                 RequestParams requestParams = new RequestParams();
                 requestParams.add("roomId", myPreferences.getString("roomId"));
-                asyncHttpClient.post(API_URL+"players-list-werewolf", requestParams, new TextHttpResponseHandler() {
+                asyncHttpClient.post(API_URL+"werewolf-players-list", requestParams, new TextHttpResponseHandler() {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                         Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_SHORT).show();
@@ -75,8 +76,6 @@ public class WerewolfActivity extends Activity {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, String responseString) {
                         if(playersListBuffer.equals("") || !responseString.equals(playersListBuffer)) {
-
-                            Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_LONG).show();
                             Gson mGson = new Gson();
                             PlayersDataStorage.players = mGson.fromJson(responseString, Player[].class);
                             PlayersDataStorage.fillData();
@@ -99,7 +98,6 @@ public class WerewolfActivity extends Activity {
                                         }
                                         @Override
                                         public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                                            Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_LONG).show();
                                         }
                                     });
                                 }
@@ -111,7 +109,7 @@ public class WerewolfActivity extends Activity {
                         playersListBuffer = responseString;
                     }
                 });
-                playersListHandler.postDelayed(this, 2000);
+                playersListHandler.postDelayed(this, 1000);
             }
         }, 0);
 
@@ -127,15 +125,16 @@ public class WerewolfActivity extends Activity {
                 }
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                    Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_LONG).show();
-
                     if (responseString.equals("MustTargetSameVillager")) {
                         Toast.makeText(getApplicationContext(), "All werewolves must target the same villager", Toast.LENGTH_SHORT).show();
                     }
+                    else if (responseString.equals("NoVotes")) {
+                        Toast.makeText(getApplicationContext(), "Select player to kill", Toast.LENGTH_SHORT).show();
+                    }
                     else if (responseString.equals("KillSuccessful")) {
-                        Toast.makeText(getApplicationContext(), "KillSuccessful", Toast.LENGTH_SHORT).show();
                         playersListBuffer = "";
                         playersListHandler.removeCallbacksAndMessages(null);
+                        gamePhaseHandler.removeCallbacksAndMessages(null);
                         Intent myIntent = new Intent(WerewolfActivity.this, SleepActivity.class);
                         startActivity(myIntent);
                         finish();
@@ -144,5 +143,31 @@ public class WerewolfActivity extends Activity {
             });
             }
         });
+
+        gamePhaseHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                RequestParams requestParams = new RequestParams();
+                requestParams.add("roomId", myPreferences.getString("roomId"));
+                asyncHttpClient.post(API_URL + "get-phase", requestParams, new TextHttpResponseHandler() {
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                        if(!responseString.equals("werewolves")) {
+                            playersListBuffer = "";
+                            playersListHandler.removeCallbacksAndMessages(null);
+                            gamePhaseHandler.removeCallbacksAndMessages(null);
+                            Intent myIntent = new Intent(WerewolfActivity.this, SleepActivity.class);
+                            startActivity(myIntent);
+                            finish();
+                        }
+                    }
+                });
+                gamePhaseHandler.postDelayed(this, 1000);
+            }
+        }, 0);
     }
 }

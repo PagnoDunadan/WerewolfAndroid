@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -27,6 +28,8 @@ public class SleepActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep);
 
+        final TextView phaseTextView = findViewById(R.id.phaseTextView);
+
         final AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
 
         final MyPreferences myPreferences = new MyPreferences(this);
@@ -43,6 +46,8 @@ public class SleepActivity extends Activity {
                     }
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                        phaseTextView.setText("Current phase: " + responseString);
+
                         if(responseString.equals("werewolves") && myPreferences.getString("playerRole").equals("werewolf")) {
                             gamePhaseHandler.removeCallbacksAndMessages(null);
                             Intent myIntent = new Intent(SleepActivity.this, WerewolfActivity.class);
@@ -56,14 +61,12 @@ public class SleepActivity extends Activity {
                             finish();
                         }
                         else if(responseString.equals("seer") && myPreferences.getString("playerRole").equals("seer")) {
-                            // TODO
                             gamePhaseHandler.removeCallbacksAndMessages(null);
                             Intent myIntent = new Intent(SleepActivity.this, SeerActivity.class);
                             startActivity(myIntent);
                             finish();
                         }
                         else if(responseString.equals("day")) {
-                            // TODO
                             gamePhaseHandler.removeCallbacksAndMessages(null);
                             Intent myIntent = new Intent(SleepActivity.this, DayActivity.class);
                             startActivity(myIntent);
@@ -71,7 +74,6 @@ public class SleepActivity extends Activity {
                         }
                     }
                 });
-
                 gamePhaseHandler.postDelayed(this, 2000);
             }
         }, 0);

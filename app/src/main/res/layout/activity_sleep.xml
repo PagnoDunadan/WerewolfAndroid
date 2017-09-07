@@ -4,9 +4,18 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:text="Current phase: "
+        android:textSize="20dp"
+        android:id="@+id/phaseTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat" />
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:textSize="20dp"
         android:text="SLEEP!"
         android:textAppearance="@style/TextAppearance.AppCompat" />
 
