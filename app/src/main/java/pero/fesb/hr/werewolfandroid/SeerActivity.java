@@ -28,7 +28,7 @@ public class SeerActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor);
+        setContentView(R.layout.activity_seer);
 
         final TextView roomIdTextView = findViewById(R.id.roomIdTextView);
         final TextView playerNameTextView = findViewById(R.id.playerNameTextView);
@@ -65,7 +65,7 @@ public class SeerActivity extends Activity {
             public void run() {
                 RequestParams requestParams = new RequestParams();
                 requestParams.add("roomId", myPreferences.getString("roomId"));
-                asyncHttpClient.post(API_URL+"players-list-seer", requestParams, new TextHttpResponseHandler() {
+                asyncHttpClient.post(API_URL+"seer-players-list", requestParams, new TextHttpResponseHandler() {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                         Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_SHORT).show();
@@ -73,13 +73,10 @@ public class SeerActivity extends Activity {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, String responseString) {
                         if(playersListBuffer.equals("") || !responseString.equals(playersListBuffer)) {
-
-                            Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_LONG).show();
                             Gson mGson = new Gson();
                             PlayersDataStorage.players = mGson.fromJson(responseString, Player[].class);
                             PlayersDataStorage.fillData();
                             playersList.setAdapter(new PlayersAdapter(getApplicationContext()));
-                            playersList.setSelection(playersList.getCount());
 
                             // On player click send vote as action
                             playersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -114,7 +111,7 @@ public class SeerActivity extends Activity {
                         playersListBuffer = responseString;
                     }
                 });
-                playersListHandler.postDelayed(this, 2000);
+                playersListHandler.postDelayed(this, 1000);
             }
         }, 0);
     }

@@ -146,8 +146,6 @@
         android:layout_below="@+id/linearLayout"
         android:layout_above="@+id/linearLayout2"
         android:id="@+id/playersList"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp"
         android:layout_gravity="start|center_vertical" />
 
     <LinearLayout

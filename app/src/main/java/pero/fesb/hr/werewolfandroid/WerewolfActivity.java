@@ -80,7 +80,6 @@ public class WerewolfActivity extends Activity {
                             PlayersDataStorage.players = mGson.fromJson(responseString, Player[].class);
                             PlayersDataStorage.fillData();
                             playersList.setAdapter(new PlayersAdapter(getApplicationContext()));
-                            playersList.setSelection(playersList.getCount());
 
                             // On player click send vote as action
                             playersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
