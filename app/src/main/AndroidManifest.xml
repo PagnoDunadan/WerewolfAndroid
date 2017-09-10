@@ -62,6 +62,10 @@
             android:name=".VillagersVictoryActivity"
             android:label="Villagers Victory">
         </activity>
+        <activity
+            android:name=".DeadActivity"
+            android:label="Dead">
+        </activity>
     </application>
 
 </manifest>

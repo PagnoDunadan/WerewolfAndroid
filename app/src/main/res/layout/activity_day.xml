@@ -9,7 +9,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="120dp"
         android:id="@+id/linearLayout"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
@@ -127,6 +127,15 @@
                 android:textAppearance="@style/TextAppearance.AppCompat" />
 
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="Night Recap"
+            android:textSize="10dp"
+            android:gravity="center"
+            android:id="@+id/nightRecapTextView"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
 
         <TextView
             android:layout_width="match_parent"

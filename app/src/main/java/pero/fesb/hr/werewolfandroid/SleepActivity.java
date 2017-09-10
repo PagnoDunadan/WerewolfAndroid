@@ -34,6 +34,25 @@ public class SleepActivity extends Activity {
 
         final MyPreferences myPreferences = new MyPreferences(this);
 
+        RequestParams requestParams = new RequestParams();
+        requestParams.add("roomId", myPreferences.getString("roomId"));
+        requestParams.add("playerName", myPreferences.getString("playerName"));
+        asyncHttpClient.post(API_URL + "fetch-player-status", requestParams, new TextHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_LONG).show();
+            }
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                if(responseString.equals("dead")) {
+                    gamePhaseHandler.removeCallbacksAndMessages(null);
+                    Intent myIntent = new Intent(SleepActivity.this, DeadActivity.class);
+                    startActivity(myIntent);
+                    finish();
+                }
+            }
+        });
+
         gamePhaseHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -66,6 +85,18 @@ public class SleepActivity extends Activity {
                             startActivity(myIntent);
                             finish();
                         }
+                        else if(responseString.equals("villagersVictory")) {
+                            gamePhaseHandler.removeCallbacksAndMessages(null);
+                            Intent myIntent = new Intent(SleepActivity.this, VillagersVictoryActivity.class);
+                            startActivity(myIntent);
+                            finish();
+                        }
+                        else if(responseString.equals("werewolvesVictory")) {
+                            gamePhaseHandler.removeCallbacksAndMessages(null);
+                            Intent myIntent = new Intent(SleepActivity.this, WerewolvesVictoryActivity.class);
+                            startActivity(myIntent);
+                            finish();
+                        }
                         else if(responseString.equals("day")) {
                             gamePhaseHandler.removeCallbacksAndMessages(null);
                             Intent myIntent = new Intent(SleepActivity.this, DayActivity.class);
@@ -76,6 +107,6 @@ public class SleepActivity extends Activity {
                 });
                 gamePhaseHandler.postDelayed(this, 2000);
             }
-        }, 0);
+        }, 2000);
     }
 }

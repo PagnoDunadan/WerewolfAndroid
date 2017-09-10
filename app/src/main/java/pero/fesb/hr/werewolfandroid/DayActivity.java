@@ -23,6 +23,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class DayActivity extends Activity {
     private static String API_URL = MainActivity.API_URL;
+    final Handler gamePhaseHandler = new Handler();
     final Handler playersListHandler = new Handler();
     private static String playersListBuffer = "";
 
@@ -36,6 +37,7 @@ public class DayActivity extends Activity {
         final TextView playerRoleTextView = findViewById(R.id.playerRoleTextView);
         final TextView werewolvesCountTextView = findViewById(R.id.werewolvesCountTextView);
         final TextView villagersCountTextView = findViewById(R.id.villagersCountTextView);
+        final TextView nightRecapTextView = findViewById(R.id.nightRecapTextView);
         final ListView playersList = findViewById(R.id.playersList);
         final Button confirmButton = findViewById(R.id.confirmButton);
 
@@ -43,27 +45,7 @@ public class DayActivity extends Activity {
 
         final MyPreferences myPreferences = new MyPreferences(this);
 
-        roomIdTextView.setText(myPreferences.getString("roomId"));
-        playerNameTextView.setText(myPreferences.getString("playerName"));
-        playerRoleTextView.setText(myPreferences.getString("playerRole"));
-
         RequestParams requestParams = new RequestParams();
-        requestParams.add("roomId", myPreferences.getString("roomId"));
-        asyncHttpClient.post(API_URL + "fetch-count", requestParams, new TextHttpResponseHandler() {
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_LONG).show();
-            }
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                String[] array = responseString.split(Pattern.quote("||"));
-                werewolvesCountTextView.setText(array[0]);
-                villagersCountTextView.setText(array[1]);
-            }
-        });
-
-        // TODO: Killed igraci ne mogu igrat, treba ih odvest na screen DEAD i pokazat poruku tko je ubijen preko noci ili rec da je netko ozivljen
-        requestParams = new RequestParams();
         requestParams.add("roomId", myPreferences.getString("roomId"));
         requestParams.add("playerName", myPreferences.getString("playerName"));
         asyncHttpClient.post(API_URL + "fetch-player-status", requestParams, new TextHttpResponseHandler() {
@@ -76,10 +58,50 @@ public class DayActivity extends Activity {
                 if(responseString.equals("killed")) {
                     playersListBuffer = "";
                     playersListHandler.removeCallbacksAndMessages(null);
+                    gamePhaseHandler.removeCallbacksAndMessages(null);
                     Intent myIntent = new Intent(DayActivity.this, DeadActivity.class);
                     startActivity(myIntent);
                     finish();
                 }
+            }
+        });
+
+        requestParams = new RequestParams();
+        requestParams.add("roomId", myPreferences.getString("roomId"));
+        requestParams.add("playerName", myPreferences.getString("playerName"));
+        asyncHttpClient.post(API_URL + "fetch-night-recap", requestParams, new TextHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_LONG).show();
+            }
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                String[] array = responseString.split(Pattern.quote("||"));
+                if(array[1].equals("killed")) {
+                    nightRecapTextView.setText(array[0]+" was killed last night!");
+                }
+                else if (array[1].equals("revived")) {
+                    nightRecapTextView.setText(array[0]+" was revived last night!");
+                }
+            }
+        });
+
+        roomIdTextView.setText(myPreferences.getString("roomId"));
+        playerNameTextView.setText(myPreferences.getString("playerName"));
+        playerRoleTextView.setText(myPreferences.getString("playerRole"));
+
+        requestParams = new RequestParams();
+        requestParams.add("roomId", myPreferences.getString("roomId"));
+        asyncHttpClient.post(API_URL + "fetch-count", requestParams, new TextHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_LONG).show();
+            }
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                String[] array = responseString.split(Pattern.quote("||"));
+                werewolvesCountTextView.setText(array[0]);
+                villagersCountTextView.setText(array[1]);
             }
         });
 
@@ -145,11 +167,11 @@ public class DayActivity extends Activity {
                     }
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                        // TODO: return Player is werewolf/ player isn't werewolf
                         if (responseString.equals("VoteSuccessful")) {
                             Toast.makeText(getApplicationContext(), "VoteSuccessful", Toast.LENGTH_SHORT).show();
                             playersListBuffer = "";
                             playersListHandler.removeCallbacksAndMessages(null);
+                            gamePhaseHandler.removeCallbacksAndMessages(null);
                             Intent myIntent = new Intent(DayActivity.this, SleepActivity.class);
                             startActivity(myIntent);
                             finish();
@@ -164,5 +186,31 @@ public class DayActivity extends Activity {
                 });
             }
         });
+
+        gamePhaseHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                RequestParams requestParams = new RequestParams();
+                requestParams.add("roomId", myPreferences.getString("roomId"));
+                asyncHttpClient.post(API_URL + "get-phase", requestParams, new TextHttpResponseHandler() {
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                        if(!responseString.equals("day")) {
+                            playersListBuffer = "";
+                            playersListHandler.removeCallbacksAndMessages(null);
+                            gamePhaseHandler.removeCallbacksAndMessages(null);
+                            Intent myIntent = new Intent(DayActivity.this, SleepActivity.class);
+                            startActivity(myIntent);
+                            finish();
+                        }
+                    }
+                });
+                gamePhaseHandler.postDelayed(this, 1000);
+            }
+        }, 0);
     }
 }
