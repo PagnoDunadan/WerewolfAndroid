@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
     android:padding="16dp">
 
     <ImageView
@@ -18,7 +17,6 @@
         android:layout_height="40dp"
         android:textSize="26dp"
         android:text="NIGHT"
-        android:textColor="#EEEEEE"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat" />
 
@@ -27,14 +25,12 @@
         android:layout_height="80dp"
         android:gravity="center_vertical"
         android:textSize="18dp"
-        android:textColor="#EEEEEE"
         android:text="Night has come. All players must close their eyes and go to sleep."
         android:textAppearance="@style/TextAppearance.AppCompat" />
 
     <TextView
         android:text="Current phase: N/A"
         android:textSize="18dp"
-        android:textColor="#EEEEEE"
         android:gravity="center_vertical"
         android:id="@+id/phaseTextView"
         android:layout_width="match_parent"

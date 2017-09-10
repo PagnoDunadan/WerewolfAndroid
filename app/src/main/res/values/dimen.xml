@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="werewolf_imageview_width">180dp</dimen>
+    <dimen name="werewolf_imageview_height">200dp</dimen>
+
+    <dimen name="doctor_imageview_width">140dp</dimen>
+    <dimen name="doctor_imageview_height">200dp</dimen>
+
+    <dimen name="seer_imageview_width">200dp</dimen>
+    <dimen name="seer_imageview_height">200dp</dimen>
+
+    <dimen name="villager_imageview_width">100dp</dimen>
+    <dimen name="villager_imageview_height">200dp</dimen>
+</resources>

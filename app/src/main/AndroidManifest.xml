@@ -11,8 +11,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!-- android:theme="@style/AppTheme" -->
-        <!-- android:theme="@style/Theme.AppCompat" -->
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -22,51 +20,40 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".JoinGameActivity"
-            android:label="Join Game">
+            android:name=".JoinGameActivity">
         </activity>
         <activity
-            android:name=".CreateGameActivity"
-            android:label="Create Game">
+            android:name=".CreateGameActivity">
         </activity>
         <activity
-            android:name=".LobbyActivity"
-            android:label="Lobby">
+            android:name=".LobbyActivity">
         </activity>
         <activity
-            android:name=".ShowRolesActivity"
-            android:label="Show Roles">
+            android:name=".ShowRolesActivity">
         </activity>
         <activity
-            android:name=".WerewolfActivity"
-            android:label="Werewolf">
+            android:name=".WerewolfActivity">
         </activity>
         <activity
             android:name=".SleepActivity">
         </activity>
         <activity
-            android:name=".DoctorActivity"
-            android:label="Doctor">
+            android:name=".DoctorActivity">
         </activity>
         <activity
-            android:name=".SeerActivity"
-            android:label="Seer">
+            android:name=".SeerActivity">
         </activity>
         <activity
-            android:name=".DayActivity"
-            android:label="Day">
+            android:name=".DayActivity">
         </activity>
         <activity
-            android:name=".WerewolvesVictoryActivity"
-            android:label="Werewolves Victory">
+            android:name=".WerewolvesVictoryActivity">
         </activity>
         <activity
-            android:name=".VillagersVictoryActivity"
-            android:label="Villagers Victory">
+            android:name=".VillagersVictoryActivity">
         </activity>
         <activity
-            android:name=".DeadActivity"
-            android:label="Dead">
+            android:name=".DeadActivity">
         </activity>
     </application>
 

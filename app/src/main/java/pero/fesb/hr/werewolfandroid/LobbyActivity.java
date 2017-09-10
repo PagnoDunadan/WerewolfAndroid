@@ -1,10 +1,10 @@
 package pero.fesb.hr.werewolfandroid;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -20,7 +20,7 @@ import cz.msebera.android.httpclient.Header;
 
 import com.google.gson.Gson;
 
-public class LobbyActivity extends Activity {
+public class LobbyActivity extends AppCompatActivity {
     private static String API_URL = MainActivity.API_URL;
     final Handler playersListHandler = new Handler();
     final Handler gamePhaseHandler = new Handler();
@@ -31,11 +31,11 @@ public class LobbyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
 
-        final TextView roomIdTextView = findViewById(R.id.roomIdTextView);
-        final ListView playersList = findViewById(R.id.playersList);
-        final Button startButton = findViewById(R.id.startButton);
-        final Button cancelButton = findViewById(R.id.cancelButton);
-        final Button addPlayersButton = findViewById(R.id.addPlayersButton);
+        final TextView roomIdTextView = (TextView) findViewById(R.id.roomIdTextView);
+        final ListView playersList = (ListView) findViewById(R.id.playersList);
+        final Button startButton = (Button) findViewById(R.id.startButton);
+        final Button cancelButton = (Button) findViewById(R.id.cancelButton);
+        final Button addPlayersButton = (Button) findViewById(R.id.addPlayersButton);
 
         final AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
 
@@ -168,12 +168,6 @@ public class LobbyActivity extends Activity {
                     }
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                        if (responseString.equals("NoMorePlayers")) {
-                            Toast.makeText(getApplicationContext(), "NoMorePlayers", Toast.LENGTH_SHORT).show();
-                        }
-                        else if (responseString.equals("RemovePlayerSuccessful")) {
-                            Toast.makeText(getApplicationContext(), "RemovePlayerSuccessful", Toast.LENGTH_SHORT).show();
-                        }
                         playersListBuffer = "";
                         playersListHandler.removeCallbacksAndMessages(null);
                         gamePhaseHandler.removeCallbacksAndMessages(null);
