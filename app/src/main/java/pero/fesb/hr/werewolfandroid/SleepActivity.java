@@ -1,25 +1,20 @@
 package pero.fesb.hr.werewolfandroid;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.widget.AdapterView;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 
-import java.util.regex.Pattern;
-
 import cz.msebera.android.httpclient.Header;
 
-public class SleepActivity extends Activity {
+public class SleepActivity extends AppCompatActivity {
     private static String API_URL = MainActivity.API_URL;
     final Handler gamePhaseHandler = new Handler();
 
@@ -28,7 +23,7 @@ public class SleepActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep);
 
-        final TextView phaseTextView = findViewById(R.id.phaseTextView);
+        final TextView phaseTextView = (TextView) findViewById(R.id.phaseTextView);
 
         final AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
 

@@ -1,22 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent"
+    android:padding="16dp">
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/sleep"/>
 
     <TextView
-        android:text="Current phase: "
-        android:textSize="20dp"
-        android:id="@+id/phaseTextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:textSize="26dp"
+        android:text="NIGHT"
+        android:textColor="#EEEEEE"
+        android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="20dp"
-        android:text="SLEEP!"
+        android:layout_height="80dp"
+        android:gravity="center_vertical"
+        android:textSize="18dp"
+        android:textColor="#EEEEEE"
+        android:text="Night has come. All players must close their eyes and go to sleep."
+        android:textAppearance="@style/TextAppearance.AppCompat" />
+
+    <TextView
+        android:text="Current phase: N/A"
+        android:textSize="18dp"
+        android:textColor="#EEEEEE"
+        android:gravity="center_vertical"
+        android:id="@+id/phaseTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat" />
 
 </LinearLayout>
