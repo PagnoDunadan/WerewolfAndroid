@@ -90,57 +90,6 @@ public class DoctorActivity extends AppCompatActivity {
             }
         };
 
-//        playersListHandler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                RequestParams requestParams = new RequestParams();
-//                requestParams.add("roomId", myPreferences.getString("roomId"));
-//                asyncHttpClient.post(API_URL+"doctor-players-list", requestParams, new TextHttpResponseHandler() {
-//                    @Override
-//                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-//                        Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_SHORT).show();
-//                    }
-//                    @Override
-//                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
-//                        if(playersListBuffer.equals("") || !responseString.equals(playersListBuffer)) {
-//                            int index = playersList.getFirstVisiblePosition();
-//                            Gson mGson = new Gson();
-//                            PlayersDataStorage.players = mGson.fromJson(responseString, Player[].class);
-//                            PlayersDataStorage.fillData();
-//                            playersList.setAdapter(new PlayersAdapter(getApplicationContext()));
-//                            playersList.smoothScrollToPosition(index);
-//
-//                            // On player click send vote as action
-//                            playersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                                @Override
-//                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                                    Player player = PlayersDataStorage.playersListViewData.get(i);
-//                                    RequestParams requestParams = new RequestParams();
-//                                    requestParams.add("roomId", myPreferences.getString("roomId"));
-//                                    requestParams.add("playerName", myPreferences.getString("playerName"));
-//                                    requestParams.add("action", player.getPlayerName().split(Pattern.quote(" "))[0]);
-//                                    asyncHttpClient.post(API_URL+"doctor-vote", requestParams, new TextHttpResponseHandler() {
-//                                        @Override
-//                                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-//                                            Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_SHORT).show();
-//                                        }
-//                                        @Override
-//                                        public void onSuccess(int statusCode, Header[] headers, String responseString) {
-//                                        }
-//                                    });
-//                                }
-//                            });
-//                        }
-//
-//                        // End on player click
-//
-//                        playersListBuffer = responseString;
-//                    }
-//                });
-//                playersListHandler.postDelayed(this, 1000);
-//            }
-//        }, 0);
-
         infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
