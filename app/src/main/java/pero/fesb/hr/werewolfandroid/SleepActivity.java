@@ -80,6 +80,12 @@ public class SleepActivity extends AppCompatActivity {
                             startActivity(myIntent);
                             finish();
                         }
+                        else if(responseString.equals("day")) {
+                            gamePhaseHandler.removeCallbacksAndMessages(null);
+                            Intent myIntent = new Intent(SleepActivity.this, DayActivity.class);
+                            startActivity(myIntent);
+                            finish();
+                        }
                         else if(responseString.equals("villagersVictory")) {
                             gamePhaseHandler.removeCallbacksAndMessages(null);
                             Intent myIntent = new Intent(SleepActivity.this, VillagersVictoryActivity.class);
@@ -89,12 +95,6 @@ public class SleepActivity extends AppCompatActivity {
                         else if(responseString.equals("werewolvesVictory")) {
                             gamePhaseHandler.removeCallbacksAndMessages(null);
                             Intent myIntent = new Intent(SleepActivity.this, WerewolvesVictoryActivity.class);
-                            startActivity(myIntent);
-                            finish();
-                        }
-                        else if(responseString.equals("day")) {
-                            gamePhaseHandler.removeCallbacksAndMessages(null);
-                            Intent myIntent = new Intent(SleepActivity.this, DayActivity.class);
                             startActivity(myIntent);
                             finish();
                         }

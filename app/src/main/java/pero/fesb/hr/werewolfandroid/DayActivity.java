@@ -1,10 +1,10 @@
 package pero.fesb.hr.werewolfandroid;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -21,28 +21,25 @@ import java.util.regex.Pattern;
 
 import cz.msebera.android.httpclient.Header;
 
-public class DayActivity extends Activity {
+public class DayActivity extends AppCompatActivity {
     private static String API_URL = MainActivity.API_URL;
+    private static String playersListBuffer = "";
     final Handler gamePhaseHandler = new Handler();
     final Handler playersListHandler = new Handler();
-    private static String playersListBuffer = "";
+    Runnable playersListRunnable;
+    Runnable gamePhaseRunnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_day);
 
-        final TextView roomIdTextView = findViewById(R.id.roomIdTextView);
-        final TextView playerNameTextView = findViewById(R.id.playerNameTextView);
-        final TextView playerRoleTextView = findViewById(R.id.playerRoleTextView);
-        final TextView werewolvesCountTextView = findViewById(R.id.werewolvesCountTextView);
-        final TextView villagersCountTextView = findViewById(R.id.villagersCountTextView);
-        final TextView nightRecapTextView = findViewById(R.id.nightRecapTextView);
-        final ListView playersList = findViewById(R.id.playersList);
-        final Button confirmButton = findViewById(R.id.confirmButton);
+        final Button infoButton = (Button) findViewById(R.id.infoButton);
+        final TextView nightRecapTextView = (TextView) findViewById(R.id.nightRecapTextView);
+        final ListView playersList = (ListView) findViewById(R.id.playersList);
+        final Button confirmButton = (Button) findViewById(R.id.confirmButton);
 
         final AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
-
         final MyPreferences myPreferences = new MyPreferences(this);
 
         RequestParams requestParams = new RequestParams();
@@ -78,34 +75,15 @@ public class DayActivity extends Activity {
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
                 String[] array = responseString.split(Pattern.quote("||"));
                 if(array[1].equals("killed")) {
-                    nightRecapTextView.setText(array[0]+" was killed last night!");
+                    nightRecapTextView.setText("Somebody was killed last night.");
                 }
                 else if (array[1].equals("revived")) {
-                    nightRecapTextView.setText(array[0]+" was revived last night!");
+                    nightRecapTextView.setText("Werewolves were unable to kill anybody last night.");
                 }
             }
         });
 
-        roomIdTextView.setText(myPreferences.getString("roomId"));
-        playerNameTextView.setText(myPreferences.getString("playerName"));
-        playerRoleTextView.setText(myPreferences.getString("playerRole"));
-
-        requestParams = new RequestParams();
-        requestParams.add("roomId", myPreferences.getString("roomId"));
-        asyncHttpClient.post(API_URL + "fetch-count", requestParams, new TextHttpResponseHandler() {
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_LONG).show();
-            }
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                String[] array = responseString.split(Pattern.quote("||"));
-                werewolvesCountTextView.setText(array[0]);
-                villagersCountTextView.setText(array[1]);
-            }
-        });
-
-        playersListHandler.postDelayed(new Runnable() {
+        playersListRunnable = new Runnable() {
             @Override
             public void run() {
                 RequestParams requestParams = new RequestParams();
@@ -119,10 +97,12 @@ public class DayActivity extends Activity {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, String responseString) {
                         if(playersListBuffer.equals("") || !responseString.equals(playersListBuffer)) {
+                            int index = playersList.getFirstVisiblePosition();
                             Gson mGson = new Gson();
                             PlayersDataStorage.players = mGson.fromJson(responseString, Player[].class);
                             PlayersDataStorage.fillData();
                             playersList.setAdapter(new PlayersAdapter(getApplicationContext()));
+                            playersList.setSelection(index);
 
                             // On player click send vote as action
                             playersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -153,7 +133,57 @@ public class DayActivity extends Activity {
                 });
                 playersListHandler.postDelayed(this, 1000);
             }
-        }, 0);
+        };
+
+        gamePhaseRunnable = new Runnable() {
+            @Override
+            public void run() {
+                RequestParams requestParams = new RequestParams();
+                requestParams.add("roomId", myPreferences.getString("roomId"));
+                asyncHttpClient.post(API_URL + "get-phase", requestParams, new TextHttpResponseHandler() {
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                        if(!responseString.equals("day")) {
+                            playersListBuffer = "";
+                            playersListHandler.removeCallbacksAndMessages(null);
+                            gamePhaseHandler.removeCallbacksAndMessages(null);
+                            Intent myIntent = new Intent(DayActivity.this, SleepActivity.class);
+                            startActivity(myIntent);
+                            finish();
+                        }
+                    }
+                });
+                gamePhaseHandler.postDelayed(this, 1000);
+            }
+        };
+
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RequestParams requestParams = new RequestParams();
+                requestParams.add("roomId", myPreferences.getString("roomId"));
+                asyncHttpClient.post(API_URL + "fetch-count", requestParams, new TextHttpResponseHandler() {
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_LONG).show();
+                    }
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                        String[] array = responseString.split(Pattern.quote("||"));
+                        Toast.makeText(getApplicationContext(),
+                                "Room: " + myPreferences.getString("roomId") + "\n" +
+                                        "Player: " + myPreferences.getString("playerName") + "\n" +
+                                        "Role: " + myPreferences.getString("playerRole") + "\n" +
+                                        "Werewolves: " + array[0] + "\n" +
+                                        "Villagers: " + array[1], Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,31 +216,20 @@ public class DayActivity extends Activity {
                 });
             }
         });
-
-        gamePhaseHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                RequestParams requestParams = new RequestParams();
-                requestParams.add("roomId", myPreferences.getString("roomId"));
-                asyncHttpClient.post(API_URL + "get-phase", requestParams, new TextHttpResponseHandler() {
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_SHORT).show();
-                    }
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                        if(!responseString.equals("day")) {
-                            playersListBuffer = "";
-                            playersListHandler.removeCallbacksAndMessages(null);
-                            gamePhaseHandler.removeCallbacksAndMessages(null);
-                            Intent myIntent = new Intent(DayActivity.this, SleepActivity.class);
-                            startActivity(myIntent);
-                            finish();
-                        }
-                    }
-                });
-                gamePhaseHandler.postDelayed(this, 1000);
-            }
-        }, 0);
+    }
+    @Override
+    protected void onPause() {
+        playersListHandler.removeCallbacksAndMessages(null);
+        gamePhaseHandler.removeCallbacksAndMessages(null);
+        super.onPause();
+    }
+    @Override
+    protected void onResume() {
+        playersListHandler.postDelayed(playersListRunnable, 1000);
+        gamePhaseHandler.postDelayed(gamePhaseRunnable, 1000);
+        super.onResume();
+    }
+    @Override
+    public void onBackPressed() {
     }
 }

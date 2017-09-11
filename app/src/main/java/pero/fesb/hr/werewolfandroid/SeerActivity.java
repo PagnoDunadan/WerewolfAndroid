@@ -21,9 +21,6 @@ import java.util.regex.Pattern;
 
 import cz.msebera.android.httpclient.Header;
 
-import static pero.fesb.hr.werewolfandroid.R.id.playerNameTextView;
-import static pero.fesb.hr.werewolfandroid.R.id.roomIdTextView;
-
 public class SeerActivity extends AppCompatActivity {
     private static String API_URL = MainActivity.API_URL;
     private static String playersListBuffer = "";
