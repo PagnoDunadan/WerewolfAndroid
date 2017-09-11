@@ -36,9 +36,9 @@ public class PlayersAdapter extends BaseAdapter {
     public View getView(int position, View view, ViewGroup viewGroup) {
         if(view == null) view = mInflater.inflate(R.layout.each_player, viewGroup, false);
 
-        final TextView playerName = (TextView) view.findViewById(R.id.playerName);
+        final TextView playerName = view.findViewById(R.id.playerName);
 
-        final MyPreferences myPreferences = new MyPreferences(mContext);
+        //final MyPreferences myPreferences = new MyPreferences(mContext);
 
         final Player player = PlayersDataStorage.playersListViewData.get(position);
 

@@ -20,20 +20,45 @@ import cz.msebera.android.httpclient.Header;
 public class ShowRolesActivity extends AppCompatActivity {
     private static String API_URL = MainActivity.API_URL;
     final Handler gamePhaseHandler = new Handler();
+    Runnable gamePhaseRunnable;
+    Button readyButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_roles);
 
-        final Button readyButton = (Button) findViewById(R.id.readyButton);
+        readyButton = (Button) findViewById(R.id.readyButton);
         final ImageView roleImageView = (ImageView) findViewById(R.id.roleImageView);
         final TextView roleTextView = (TextView) findViewById(R.id.roleTextView);
         final TextView descriptionTextView = (TextView) findViewById(R.id.descriptionTextView);
 
         final AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
-
         final MyPreferences myPreferences = new MyPreferences(this);
+
+        gamePhaseRunnable = new Runnable() {
+            @Override
+            public void run() {
+                RequestParams requestParams = new RequestParams();
+                requestParams.add("roomId", myPreferences.getString("roomId"));
+                asyncHttpClient.post(API_URL + "get-phase", requestParams, new TextHttpResponseHandler() {
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                        if(!responseString.equals("showRoles")) {
+                            gamePhaseHandler.removeCallbacksAndMessages(null);
+                            Intent myIntent = new Intent(ShowRolesActivity.this, SleepActivity.class);
+                            startActivity(myIntent);
+                            finish();
+                        }
+                    }
+                });
+                gamePhaseHandler.postDelayed(this, 1000);
+            }
+        };
 
         RequestParams requestParams = new RequestParams();
         requestParams.add("roomId", myPreferences.getString("roomId"));
@@ -102,6 +127,7 @@ public class ShowRolesActivity extends AppCompatActivity {
                         }
                         else if(responseString.equals("Reconnecting")) {
                             Toast.makeText(getApplicationContext(), "Reconnect successful", Toast.LENGTH_SHORT).show();
+                            gamePhaseHandler.removeCallbacksAndMessages(null);
                             Intent myIntent = new Intent(ShowRolesActivity.this, SleepActivity.class);
                             startActivity(myIntent);
                             finish();
@@ -110,34 +136,27 @@ public class ShowRolesActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_SHORT).show();
                             if(readyButton.getText().equals("I'm ready!")) {
                                 readyButton.setText("Waiting for other players");
-                                gamePhaseHandler.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        RequestParams requestParams = new RequestParams();
-                                        requestParams.add("roomId", myPreferences.getString("roomId"));
-                                        asyncHttpClient.post(API_URL + "get-phase", requestParams, new TextHttpResponseHandler() {
-                                            @Override
-                                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                                Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_SHORT).show();
-                                            }
-                                            @Override
-                                            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                                                if(!responseString.equals("showRoles")) {
-                                                    gamePhaseHandler.removeCallbacksAndMessages(null);
-                                                    Intent myIntent = new Intent(ShowRolesActivity.this, SleepActivity.class);
-                                                    startActivity(myIntent);
-                                                    finish();
-                                                }
-                                            }
-                                        });
-                                        gamePhaseHandler.postDelayed(this, 1000);
-                                    }
-                                }, 0);
+                                gamePhaseHandler.postDelayed(gamePhaseRunnable, 0);
                             }
                         }
                     }
                 });
             }
         });
+    }
+    @Override
+    protected void onPause() {
+        gamePhaseHandler.removeCallbacksAndMessages(null);
+        super.onPause();
+    }
+    @Override
+    protected void onResume() {
+        if (readyButton.getText().equals("Waiting for other players")) {
+            gamePhaseHandler.postDelayed(gamePhaseRunnable, 1000);
+        }
+        super.onResume();
+    }
+    @Override
+    public void onBackPressed() {
     }
 }

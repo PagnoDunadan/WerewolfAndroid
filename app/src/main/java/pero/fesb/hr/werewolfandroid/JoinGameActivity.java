@@ -90,4 +90,10 @@ public class JoinGameActivity extends Activity {
             }
         });
     }
+    @Override
+    public void onBackPressed() {
+        Intent myIntent = new Intent(JoinGameActivity.this, MainActivity.class);
+        startActivity(myIntent);
+        finish();
+    }
 }

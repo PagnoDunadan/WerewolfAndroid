@@ -17,6 +17,7 @@ import cz.msebera.android.httpclient.Header;
 public class SleepActivity extends AppCompatActivity {
     private static String API_URL = MainActivity.API_URL;
     final Handler gamePhaseHandler = new Handler();
+    Runnable gamePhaseRunnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,6 @@ public class SleepActivity extends AppCompatActivity {
         final TextView phaseTextView = (TextView) findViewById(R.id.phaseTextView);
 
         final AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
-
         final MyPreferences myPreferences = new MyPreferences(this);
 
         RequestParams requestParams = new RequestParams();
@@ -48,7 +48,7 @@ public class SleepActivity extends AppCompatActivity {
             }
         });
 
-        gamePhaseHandler.postDelayed(new Runnable() {
+        gamePhaseRunnable = new Runnable() {
             @Override
             public void run() {
                 RequestParams requestParams = new RequestParams();
@@ -102,6 +102,19 @@ public class SleepActivity extends AppCompatActivity {
                 });
                 gamePhaseHandler.postDelayed(this, 2000);
             }
-        }, 2000);
+        };
+    }
+    @Override
+    protected void onPause() {
+        gamePhaseHandler.removeCallbacksAndMessages(null);
+        super.onPause();
+    }
+    @Override
+    protected void onResume() {
+        gamePhaseHandler.postDelayed(gamePhaseRunnable, 2000);
+        super.onResume();
+    }
+    @Override
+    public void onBackPressed() {
     }
 }

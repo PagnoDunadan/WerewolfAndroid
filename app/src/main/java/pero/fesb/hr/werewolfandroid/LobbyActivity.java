@@ -22,9 +22,11 @@ import com.google.gson.Gson;
 
 public class LobbyActivity extends AppCompatActivity {
     private static String API_URL = MainActivity.API_URL;
+    private static String playersListBuffer = "";
     final Handler playersListHandler = new Handler();
     final Handler gamePhaseHandler = new Handler();
-    private static String playersListBuffer = "";
+    Runnable playersListRunnable;
+    Runnable gamePhaseRunnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +40,9 @@ public class LobbyActivity extends AppCompatActivity {
         final Button addPlayersButton = (Button) findViewById(R.id.addPlayersButton);
 
         final AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
-
         final MyPreferences myPreferences = new MyPreferences(this);
 
-        roomIdTextView.setText("Room: " + myPreferences.getString("roomId"));
-
-        playersListHandler.postDelayed(new Runnable() {
+        playersListRunnable = new Runnable() {
             @Override
             public void run() {
                 RequestParams requestParams = new RequestParams();
@@ -76,9 +75,9 @@ public class LobbyActivity extends AppCompatActivity {
                 });
                 playersListHandler.postDelayed(this, 1000);
             }
-        }, 0);
+        };
 
-        gamePhaseHandler.postDelayed(new Runnable() {
+        gamePhaseRunnable = new Runnable() {
             @Override
             public void run() {
                 RequestParams requestParams = new RequestParams();
@@ -102,7 +101,9 @@ public class LobbyActivity extends AppCompatActivity {
                 });
                 gamePhaseHandler.postDelayed(this, 1000);
             }
-        }, 0);
+        };
+
+        roomIdTextView.setText("Room: " + myPreferences.getString("roomId"));
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,5 +179,20 @@ public class LobbyActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+    @Override
+    protected void onPause() {
+        playersListHandler.removeCallbacksAndMessages(null);
+        gamePhaseHandler.removeCallbacksAndMessages(null);
+        super.onPause();
+    }
+    @Override
+    protected void onResume() {
+        playersListHandler.postDelayed(playersListRunnable, 1000);
+        gamePhaseHandler.postDelayed(gamePhaseRunnable, 1000);
+        super.onResume();
+    }
+    @Override
+    public void onBackPressed() {
     }
 }

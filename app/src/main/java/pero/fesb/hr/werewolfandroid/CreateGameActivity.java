@@ -65,6 +65,11 @@ public class CreateGameActivity extends Activity {
                 finish();
             }
         });
-
+    }
+    @Override
+    public void onBackPressed() {
+        Intent myIntent = new Intent(CreateGameActivity.this, MainActivity.class);
+        startActivity(myIntent);
+        finish();
     }
 }
