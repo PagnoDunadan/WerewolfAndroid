@@ -4,10 +4,12 @@ package pero.fesb.hr.werewolfandroid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +30,8 @@ public class ShowRolesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_roles);
 
+        final LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
+
         readyButton = (Button) findViewById(R.id.readyButton);
         final ImageView roleImageView = (ImageView) findViewById(R.id.roleImageView);
         final TextView roleTextView = (TextView) findViewById(R.id.roleTextView);
@@ -35,6 +39,14 @@ public class ShowRolesActivity extends AppCompatActivity {
 
         final AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
         final MyPreferences myPreferences = new MyPreferences(this);
+
+        // Theme related
+        if (myPreferences.getString("themeColor").equals("pink")) {
+            mainLayout.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+            roleTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorWhiteLetters));
+            descriptionTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorWhiteLetters));
+        }
+        // End theme
 
         gamePhaseRunnable = new Runnable() {
             @Override

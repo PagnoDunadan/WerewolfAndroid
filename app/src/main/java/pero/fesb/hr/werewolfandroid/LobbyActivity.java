@@ -4,11 +4,13 @@ package pero.fesb.hr.werewolfandroid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +35,8 @@ public class LobbyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
 
+        final RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.mainLayout);
+
         final TextView roomIdTextView = (TextView) findViewById(R.id.roomIdTextView);
         final ListView playersList = (ListView) findViewById(R.id.playersList);
         final Button startButton = (Button) findViewById(R.id.startButton);
@@ -41,6 +45,13 @@ public class LobbyActivity extends AppCompatActivity {
 
         final AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
         final MyPreferences myPreferences = new MyPreferences(this);
+
+        // Theme related
+        if (myPreferences.getString("themeColor").equals("pink")) {
+            mainLayout.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+            roomIdTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorWhiteLetters));
+        }
+        // End theme
 
         playersListRunnable = new Runnable() {
             @Override

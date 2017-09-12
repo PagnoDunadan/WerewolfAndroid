@@ -2,9 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:padding="16dp"
-    android:gravity="center">
+    android:gravity="center"
+    android:id="@+id/mainLayout">
 
     <LinearLayout
         android:orientation="vertical"
@@ -41,6 +42,7 @@
             android:layout_height="wrap_content"
             android:text="Day"
             android:textSize="22dp"
+            android:id="@+id/headlineTextView"
             android:gravity="center"
             android:textAppearance="@style/TextAppearance.AppCompat" />
 
@@ -49,6 +51,7 @@
             android:layout_height="wrap_content"
             android:text="Morning has come, the village awakes. All players now discuss last nights events and who might be a werewolf. The person with the most votes will be killed by the village."
             android:textSize="14dp"
+            android:id="@+id/descriptionTextView"
             android:gravity="center"
             android:textAppearance="@style/TextAppearance.AppCompat" />
 

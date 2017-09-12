@@ -4,7 +4,9 @@ package pero.fesb.hr.werewolfandroid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +25,10 @@ public class SleepActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep);
+
+        final LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
+        final TextView headlineTextView = (TextView) findViewById(R.id.headlineTextView);
+        final TextView descriptionTextView = (TextView) findViewById(R.id.descriptionTextView);
 
         final TextView phaseTextView = (TextView) findViewById(R.id.phaseTextView);
 
@@ -47,6 +53,15 @@ public class SleepActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // Theme related
+        if (myPreferences.getString("themeColor").equals("pink")) {
+            mainLayout.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+            headlineTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorWhiteLetters));
+            descriptionTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorWhiteLetters));
+            phaseTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorWhiteLetters));
+        }
+        // End theme
 
         gamePhaseRunnable = new Runnable() {
             @Override

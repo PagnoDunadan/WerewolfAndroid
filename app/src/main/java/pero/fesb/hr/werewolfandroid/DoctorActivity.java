@@ -4,11 +4,13 @@ package pero.fesb.hr.werewolfandroid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,12 +34,25 @@ public class DoctorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor);
 
+        final RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.mainLayout);
+        final TextView headlineTextView = (TextView) findViewById(R.id.headlineTextView);
+        final TextView descriptionTextView = (TextView) findViewById(R.id.descriptionTextView);
+
         final Button infoButton = (Button) findViewById(R.id.infoButton);
         final ListView playersList = (ListView) findViewById(R.id.playersList);
         final Button confirmButton = (Button) findViewById(R.id.confirmButton);
 
         final AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
         final MyPreferences myPreferences = new MyPreferences(this);
+
+        // Theme related
+        if (myPreferences.getString("themeColor").equals("pink")) {
+            mainLayout.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+            infoButton.setBackgroundResource(R.drawable.info_white);
+            headlineTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorWhiteLetters));
+            descriptionTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorWhiteLetters));
+        }
+        // End theme
 
         playersListRunnable = new Runnable() {
             @Override
