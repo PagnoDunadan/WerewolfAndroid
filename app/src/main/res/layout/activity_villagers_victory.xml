@@ -1,12 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:id="@+id/mainLayout">
+
+    <ImageView
+        android:layout_width="320dp"
+        android:layout_height="130dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="70dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/villagers_victory"/>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="40dp"
+        android:textSize="26dp"
+        android:text="Villagers victory!"
+        android:id="@+id/headlineTextView"
         android:gravity="center"
-        android:text="Villagers won!"
         android:textAppearance="@style/TextAppearance.AppCompat" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:gravity="center_vertical"
+        android:id="@+id/descriptionTextView"
+        android:textSize="18dp"
+        android:text="Villagers have killed all the werewolves and saved the village from ruin."
+        android:textAppearance="@style/TextAppearance.AppCompat" />
+
 </LinearLayout>

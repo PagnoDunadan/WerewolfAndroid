@@ -84,7 +84,7 @@ public class DayActivity extends AppCompatActivity {
                     nightRecapTextView.setText("Somebody was killed last night.");
                 }
                 else if (array[1].equals("revived")) {
-                    nightRecapTextView.setText("Werewolves were unable to kill anybody last night.");
+                    nightRecapTextView.setText("Werewolves were unable to kill last night.");
                 }
             }
         });
