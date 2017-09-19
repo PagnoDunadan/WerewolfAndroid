@@ -6,7 +6,29 @@
     android:padding="50dp"
     android:id="@+id/mainLayout">
 
+    <TextView
+        android:id="@+id/apiUrlTextView"
+        android:text="API_URL: "
+        android:textSize="22dp"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/apiUrlEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="e.g. 192.168.1.4" />
+
+    <Button
+        android:text="Set"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/apiUrlButton" />
+
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

@@ -88,21 +88,21 @@ public class ShowRolesActivity extends AppCompatActivity {
                     roleImageView.getLayoutParams().height = (int) getResources().getDimension(R.dimen.werewolf_imageview_height);
                     roleImageView.setBackgroundResource(R.drawable.werewolf);
                     roleTextView.setText("Werewolf");
-                    descriptionTextView.setText("At night you wake up and together with your werewolf friend decide on a victim to kill. During the day you try to pose as a regular villager and not get yourself killed.");
+                    descriptionTextView.setText("At night you wake up and together with your werewolf friend decide on a victim to kill. During the day you pretend to be a regular villager and try to not get yourself killed.");
                 }
                 else if (responseString.equals("doctor")) {
                     roleImageView.getLayoutParams().width = (int) getResources().getDimension(R.dimen.doctor_imageview_width);
                     roleImageView.getLayoutParams().height = (int) getResources().getDimension(R.dimen.doctor_imageview_height);
                     roleImageView.setBackgroundResource(R.drawable.doctor);
                     roleTextView.setText("Doctor");
-                    descriptionTextView.setText("At night you awaken and select a player which cannot be killed by the werewolves that night.");
+                    descriptionTextView.setText("At night you wake up and select a player who cannot be killed by the werewolves that night.");
                 }
                 else if (responseString.equals("seer")) {
                     roleImageView.getLayoutParams().width = (int) getResources().getDimension(R.dimen.seer_imageview_width);
                     roleImageView.getLayoutParams().height = (int) getResources().getDimension(R.dimen.seer_imageview_height);
                     roleImageView.setBackgroundResource(R.drawable.seer);
                     roleTextView.setText("Seer");
-                    descriptionTextView.setText("Each night you can uncover the role of another player.");
+                    descriptionTextView.setText("Each night you can learn the role of another player.");
                 }
                 else if (responseString.equals("villager")) {
                     roleImageView.getLayoutParams().width = (int) getResources().getDimension(R.dimen.villager_imageview_width);
