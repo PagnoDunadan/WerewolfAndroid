@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="e.g. 192.168.1.4" />
+        android:hint="e.g. 192.168.1.4:8000" />
 
     <Button
         android:text="Set"

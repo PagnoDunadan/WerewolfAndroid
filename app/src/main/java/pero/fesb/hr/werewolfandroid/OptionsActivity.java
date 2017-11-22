@@ -21,9 +21,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.TextHttpResponseHandler;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 public class OptionsActivity extends AppCompatActivity {
 
@@ -67,6 +72,7 @@ public class OptionsActivity extends AppCompatActivity {
         final TextView themeTextView = (TextView) findViewById(R.id.themeTextView);
         final Spinner themeSpinner = (Spinner) findViewById(R.id.themeSpinner);
 
+        final AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
         final MyPreferences myPreferences = new MyPreferences(this);
 
         apiUrlButton.setOnClickListener(new View.OnClickListener() {
@@ -74,9 +80,21 @@ public class OptionsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(apiUrlEditText.getText().toString().equals("")) Toast.makeText(getApplicationContext(), "Please enter you server address", Toast.LENGTH_SHORT).show();
                 else {
-                    myPreferences.setString("API_URL", "http://"+apiUrlEditText.getText().toString()+":8000/");
-                    apiUrlEditText.setText("");
-                    Toast.makeText(getApplicationContext(), "API_URL updated, please restart Werewolf app", Toast.LENGTH_SHORT).show();
+                    asyncHttpClient.post(apiUrlEditText.getText().toString()+"server-check", new TextHttpResponseHandler() {
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                            Toast.makeText(getApplicationContext(), "Cannot connect. Make sure you entered server url correctly, disabled firewall on server computer and started server.", Toast.LENGTH_LONG).show();
+                        }
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                            if (responseString.equals("OK")) {
+                                myPreferences.setString("API_URL", apiUrlEditText.getText().toString());
+                                apiUrlEditText.setText("");
+                                Toast.makeText(getApplicationContext(), "Connection successful, API_URL updated.\nPlease restart Werewolf app!", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                    Toast.makeText(getApplicationContext(), "Checking "+apiUrlEditText.getText().toString()+". Please wait!", Toast.LENGTH_LONG).show();
                 }
             }
         });
