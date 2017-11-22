@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -67,6 +68,18 @@ public class OptionsActivity extends AppCompatActivity {
         final Spinner themeSpinner = (Spinner) findViewById(R.id.themeSpinner);
 
         final MyPreferences myPreferences = new MyPreferences(this);
+
+        apiUrlButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(apiUrlEditText.getText().toString().equals("")) Toast.makeText(getApplicationContext(), "Please enter you server address", Toast.LENGTH_SHORT).show();
+                else {
+                    myPreferences.setString("API_URL", "http://"+apiUrlEditText.getText().toString()+":8000/");
+                    apiUrlEditText.setText("");
+                    Toast.makeText(getApplicationContext(), "API_URL updated, please restart Werewolf app", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         // Theme related
         List<String> list = new ArrayList<String>();

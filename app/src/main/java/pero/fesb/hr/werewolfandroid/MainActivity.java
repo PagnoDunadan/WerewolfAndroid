@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
-    public static String API_URL = "http://192.168.1.4:8000/";
+    public static String API_URL = "https://symfony-0tdz.frb.io/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
             mainLayout.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
         }
         // End theme
+
+        //API_URL = myPreferences.getString("API_URL");
 
         myPreferences.setString("roomId", "");
         myPreferences.setString("playerName", "");

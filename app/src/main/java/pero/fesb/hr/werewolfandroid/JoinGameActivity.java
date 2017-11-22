@@ -74,6 +74,8 @@ public class JoinGameActivity extends Activity {
         final AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
         final MyPreferences myPreferences = new MyPreferences(this);
 
+        //Toast.makeText(getApplicationContext(), API_URL, Toast.LENGTH_LONG).show();
+
         // Theme related
         if (myPreferences.getString("themeColor").equals("pink")) {
             mainLayout.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
